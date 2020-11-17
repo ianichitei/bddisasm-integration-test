@@ -1,0 +1,4 @@
+[submodule "bddisasm"]
+	path = bddisasm
+	url = https://github.com/ianichitei/bddisasm.git
+	branch = master
