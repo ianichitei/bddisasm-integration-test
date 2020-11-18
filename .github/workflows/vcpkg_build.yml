@@ -1,0 +1,17 @@
+name: vcpkg Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+
+    - name: Build
+      run: |
+        sudo chmod +x ./vcpkg_build.sh
+        ./vcpkg_build.sh
