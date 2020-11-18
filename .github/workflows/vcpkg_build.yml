@@ -27,4 +27,4 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
     - name: Build
-      run: build.cmd
+      run: .\build.cmd
