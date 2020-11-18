@@ -1,1 +1,7 @@
 ﻿build
+msvc/bddisasm_user/.vs
+msvc/bdshemu_user/.vs
+msvc/bddisasm_user/intdir
+msvc/bdshemu_user/intdir
+msvc/bddisasm_user/bin
+msvc/bdshemu_user/bin
