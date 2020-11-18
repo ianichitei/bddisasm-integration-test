@@ -2,8 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef USE_SUBDIR
+#include "disasmtypes.h"
+#include "bdshemu.h"
+#else
 #include <bddisasm/disasmtypes.h>
 #include <bddisasm/bdshemu.h>
+#endif // USE_SUBDIR
 
 int nd_vsnprintf_s(char *buffer, size_t sizeOfBuffer, size_t count, const char *format, va_list argptr)
 {

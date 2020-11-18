@@ -1,5 +1,11 @@
 set -e
 
+echo "\n[+] Using bddisasm as a subdirectory..."
+cmake -B build/subdir . -DUSE_SUBDIR=ON
+cmake --build build/subdir
+./build/subdir/bddisasm_sample
+./build/subdir/bdshemu_sample
+
 echo "\n[+] Building and installing bddisasm..."
 cmake -B bddisasm/build bddisasm
 cmake --build bddisasm/build
