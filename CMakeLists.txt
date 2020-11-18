@@ -20,6 +20,9 @@ if (USE_SUBDIR)
     target_compile_definitions(bddisasm_sample PRIVATE "USE_SUBDIR")
     target_compile_definitions(bdshemu_sample PRIVATE "USE_SUBDIR")
 
+    target_include_directories(bddisasm_sample PRIVATE ${PROJECT_SOURCE_DIR}/bddisasm/inc)
+    target_include_directories(bddisasm_sample PRIVATE ${PROJECT_SOURCE_DIR}/bdshemu/inc)
+
     target_link_libraries(bddisasm_sample bddisasm)
     target_link_libraries(bdshemu_sample bdshemu bddisasm)
 else ()
