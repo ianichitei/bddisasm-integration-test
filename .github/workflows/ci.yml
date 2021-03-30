@@ -26,6 +26,11 @@ jobs:
         sudo make install
         cd ..
         cd ..
+    - name: Install vcpkg
+      run: |
+        cd vcpkg
+         ./bootstrap-vcpkg.sh
+         cd ..
     - name: Build
       run: |
         sudo chmod +x ./build.sh
