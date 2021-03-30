@@ -3,6 +3,18 @@ name: CMake
 on: [push]
 
 jobs:
+  Linux-cmake-version:
+    runs-on: ubuntu-latest
+    steps:
+    - name: CMake version
+      run: cmake --version
+      
+  Windows-cmake-version:
+    runs-on: windows-latest
+    steps:
+    - name: CMake version
+      run: cmake --version
+
   Linux-build:
     runs-on: ubuntu-latest
 
