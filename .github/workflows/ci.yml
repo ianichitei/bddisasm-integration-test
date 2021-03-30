@@ -3,7 +3,7 @@ name: CMake
 on: [push]
 
 jobs:
-  build:
+  Linux-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -11,20 +11,33 @@ jobs:
       with:
         submodules: 'true'
 
+    - name: Install rapidjson
+      uses: actions/checkout@master
+      with:
+        repository: Tencent/rapidjson
+        path: rapidjson
+    - name: Build dependencies
+      run: |
+        cd rapidjson
+        mkdir _build
+        cd _build
+        cmake ..
+        make -j$(nproc)
+        sudo make install
+        cd ..
+        cd ..
     - name: Build
       run: |
         sudo chmod +x ./build.sh
         ./build.sh
 
-  consume-package:
-    runs-on: ubuntu-latest
+  Winodws-build:
+    runs-on: windows-latest
     
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: 'true'
-
+        
     - name: Build
-      run: |
-        sudo chmod +x ./package_build.sh
-        ./package_build.sh
+      run: build.cmd
