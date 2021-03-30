@@ -1,50 +1,45 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.16)
 
 project(bddisasm_sample)
 
-option(USE_PKGCONFIG "Find bddisasm using pkg-config" ON)
-option(USE_SUBDIR "Use bddisasm as a subdirectory. Ignores USE_PKGCONFIG" OFF)
+SET(USE_AS "" CACHE STRING "How to consume bddisasm. Supported values: 'subdir', 'installed'")
+set(BDDISASM_INSTALL_PATH "" CACHE STRING "Path to the installed bddisasm package")
 
-if (USE_SUBDIR)
-    add_subdirectory(bddisasm EXCLUDE_FROM_ALL)
-endif ()
+if (USE_AS STREQUAL "subdir")
+    message("Consuming bddisasm as a subdirectory")
 
-add_executable(bddisasm_sample disasm_main.c)
-add_executable(bdshemu_sample shemu_main.c)
+    include(FetchContent)
 
-if (USE_SUBDIR)
-    add_dependencies(bddisasm_sample bddisasm)
-    add_dependencies(bdshemu_sample bdshemu)
+    FetchContent_Declare(
+        bddisasm
+        GIT_REPOSITORY https://github.com/ianichitei/bddisasm
+        GIT_TAG test-7
+    )
 
-    # This is a bit of a hack.
-    target_compile_definitions(bddisasm_sample PRIVATE "USE_SUBDIR")
-    target_compile_definitions(bdshemu_sample PRIVATE "USE_SUBDIR")
-
-    target_include_directories(bddisasm_sample PRIVATE ${PROJECT_SOURCE_DIR}/bddisasm/inc)
-    target_include_directories(bdshemu_sample PRIVATE ${PROJECT_SOURCE_DIR}/bddisasm/inc)
-
-    target_link_libraries(bddisasm_sample bddisasm)
-    target_link_libraries(bdshemu_sample bdshemu bddisasm)
-
-    message(STATUS "BDDISASM_INCLUDE_DIRS: ${BDDISASM_INCLUDE_DIRS}")
-    message(STATUS "BDDISASM_LIBRARY_DIRS: ${BDDISASM_LIBRARY_DIRS}")
-    message(STATUS "BDDISASM_LIBRARIES: ${BDDISASM_LIBRARIES}")
+    FetchContent_MakeAvailable(bddisasm)
+elseif (USE_AS STREQUAL "installed")
+    if (BDDISASM_INSTALL_PATH)
+        set(CMAKE_PREFIX_PATH "${BDDISASM_INSTALL_PATH}")
+    endif (BDDISASM_INSTALL_PATH)
+    
+    message("Using prefix path: ${CMAKE_PREFIX_PATH}")
+    find_package(bddisasm 1.31 COMPONENTS bddisasm_Development)
 else ()
-    if (USE_PKGCONFIG)
-        find_package(PkgConfig REQUIRED)
-        pkg_check_modules(BDDISASM REQUIRED libbddisasm)
-    else ()
-        find_package(bddisasm CONFIG REQUIRED)
-    endif ()
-        target_include_directories(bddisasm_sample PRIVATE ${BDDISASM_INCLUDE_DIRS})
-        target_link_directories(bddisasm_sample PRIVATE ${BDDISASM_LIBRARY_DIRS})
-        target_link_libraries(bddisasm_sample ${BDDISASM_LIBRARIES})
-
-        target_include_directories(bdshemu_sample PRIVATE ${BDDISASM_INCLUDE_DIRS})
-        target_link_directories(bdshemu_sample PRIVATE ${BDDISASM_LIBRARY_DIRS})
-        target_link_libraries(bdshemu_sample ${BDDISASM_LIBRARIES})
-
-        message(STATUS "BDDISASM_INCLUDE_DIRS: ${BDDISASM_INCLUDE_DIRS}")
-        message(STATUS "BDDISASM_LIBRARY_DIRS: ${BDDISASM_LIBRARY_DIRS}")
-        message(STATUS "BDDISASM_LIBRARIES: ${BDDISASM_LIBRARIES}")
+    message("USE_AS set to: ${USE_AS}")
+    message(FATAL_ERROR "USE_AS must be set to one of the following: 'subdir', 'installed'")
 endif ()
+
+add_executable(just-decode common/common.c just-decode/just_decode.c)
+target_link_libraries(just-decode PRIVATE bddisasm::bddisasm)
+
+add_executable(just-emulate common/common.c just-emulate/just_emulate.c)
+target_link_libraries(just-emulate PRIVATE bddisasm::bdshemu)
+
+add_executable(decode-and-emulate common/common.c decode-and-emulate/decode_and_emulate.c)
+target_link_libraries(decode-and-emulate PRIVATE bddisasm::bddisasm bddisasm::bdshemu)
+
+add_custom_target(check ALL
+    COMMAND "${CMAKE_CURRENT_BINARY_DIR}/just-decode"
+    COMMAND "${CMAKE_CURRENT_BINARY_DIR}/just-emulate"
+    COMMAND "${CMAKE_CURRENT_BINARY_DIR}/decode-and-emulate")
+add_dependencies(check just-decode just-emulate decode-and-emulate)
