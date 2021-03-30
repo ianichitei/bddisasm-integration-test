@@ -31,11 +31,6 @@ cmake --build build/installed_spaces --config Release
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 REM Using VCPKG
-echo "Installing with vcpkg"
-cmake -B build/vcpkg . -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="C:\work\public\ianichitei\vcpkg\scripts\buildsystems\vcpkg.cmake"
-cmake --build build/vcpkg
-
-REM Using VCPKG
 echo "Installing bddisasm with vcpkg"
 cd vcpkg
 .\vcpkg.exe install bddisasm:x64-windows
