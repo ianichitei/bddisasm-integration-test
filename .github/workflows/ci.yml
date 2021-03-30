@@ -50,5 +50,11 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
         
+    - name: Install vcpkg
+      run: |
+        cd vcpkg
+        .\bootstrap-vcpkg.bat
+        cd ..
+        
     - name: Build
       run: .\build.cmd
