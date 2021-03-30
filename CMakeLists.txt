@@ -20,15 +20,7 @@ endif (MSVC)
 if (USE_AS STREQUAL "subdir")
     message("Consuming bddisasm as a subdirectory")
 
-    include(FetchContent)
-
-    FetchContent_Declare(
-        bddisasm
-        GIT_REPOSITORY https://github.com/ianichitei/bddisasm
-        GIT_TAG test-7
-    )
-
-    FetchContent_MakeAvailable(bddisasm)
+    add_subdirectory(bddisasm)
 elseif (USE_AS STREQUAL "installed")
     if (BDDISASM_INSTALL_PATH)
         set(CMAKE_PREFIX_PATH "${BDDISASM_INSTALL_PATH}")
