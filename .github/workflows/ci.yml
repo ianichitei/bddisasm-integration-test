@@ -40,4 +40,4 @@ jobs:
         submodules: 'true'
         
     - name: Build
-      run: build.cmd
+      run: .\build.cmd
