@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -e
 
 # As a subdirectory.
@@ -19,3 +21,13 @@ cmake --build bddisasm/build_spaces --target install
 
 cmake -B build/installed_spaces . -DUSE_AS=installed -DBDDISASM_INSTALL_PATH="./install dir"
 cmake --build build/installed_spaces
+
+# Using VCPKG
+echo "\nInstalling bddisasm with vcpkg"
+cd vcpkg
+./vcpkg install bddisasm:x64-linux
+cd ..
+
+echo "\nBuilding with vcpkg dependency"
+cmake -B build/vcpkg . -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
+cmake --build build/vcpkg

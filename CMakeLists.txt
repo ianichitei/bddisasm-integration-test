@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(bddisasm_sample)
 
-SET(USE_AS "" CACHE STRING "How to consume bddisasm. Supported values: 'subdir', 'installed'")
+SET(USE_AS "" CACHE STRING "How to consume bddisasm. Supported values: 'subdir', 'installed', 'vcpkg'")
 set(BDDISASM_INSTALL_PATH "" CACHE STRING "Path to the installed bddisasm package")
 
 if (MSVC)
@@ -28,9 +28,11 @@ elseif (USE_AS STREQUAL "installed")
     
     message("Using prefix path: ${CMAKE_PREFIX_PATH}")
     find_package(bddisasm 1.31 COMPONENTS bddisasm_Development)
+elseif (USE_AS STREQUAL "vcpkg")
+    find_package(bddisasm CONFIG REQUIRED)
 else ()
     message("USE_AS set to: ${USE_AS}")
-    message(FATAL_ERROR "USE_AS must be set to one of the following: 'subdir', 'installed'")
+    message(FATAL_ERROR "USE_AS must be set to one of the following: 'subdir', 'installed', 'vcpkg'")
 endif ()
 
 add_executable(just-decode common/common.c just-decode/just_decode.c)
