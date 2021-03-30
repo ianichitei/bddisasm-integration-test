@@ -29,3 +29,18 @@ cmake -B build/installed_spaces . -DUSE_AS=installed -DBDDISASM_INSTALL_PATH="./
 if %errorlevel% neq 0 exit /b %errorlevel%
 cmake --build build/installed_spaces --config Release
 if %errorlevel% neq 0 exit /b %errorlevel%
+
+REM Using VCPKG
+echo "Installing with vcpkg"
+cmake -B build/vcpkg . -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="C:\work\public\ianichitei\vcpkg\scripts\buildsystems\vcpkg.cmake"
+cmake --build build/vcpkg
+
+REM Using VCPKG
+echo "Installing bddisasm with vcpkg"
+cd vcpkg
+.\vcpkg.exe install bddisasm:x64-windows
+cd ..
+
+echo "Building with vcpkg dependency"
+cmake -B build/vcpkg . -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE=.\vcpkg\scripts\buildsystems\vcpkg.cmake -G Ninja -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl
+cmake --build build/vcpkg
