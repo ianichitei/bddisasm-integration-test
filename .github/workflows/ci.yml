@@ -13,12 +13,10 @@ jobs:
           - { name: "Ubuntu clang", os: ubuntu-latest, cc: "clang", cxx: "clang++" }
 
     steps:
+    - uses: ashutoshvarma/setup-ninja@master
     - uses: actions/checkout@v2
       with:
-        submodules: 'true'
-
-    - name: Setup Ninja
-      uses: ashutoshvarma/setup-ninja@master
+        submodules: 'true'      
 
     - name: Use as sub-project
       uses: ashutoshvarma/action-cmake-build@master
@@ -73,12 +71,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - uses: ashutoshvarma/setup-ninja@master
     - uses: actions/checkout@v2
       with:
         submodules: 'true'
-
-    - name: Setup Ninja
-      uses: ashutoshvarma/setup-ninja@master
 
     - name: Prepare vcpkg
       run: |
@@ -94,7 +90,7 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         cc: cl
         cxx: cl
-        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake"
+        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="${{ runner.workspace }}/bddisasm-integration-test/vcpkg/scripts/buildsystems/vcpkg.cmake"
         build-type: Release
         
   build-with-vcpkg-linux:
@@ -106,12 +102,10 @@ jobs:
           - { name: "Ubuntu clang", os: ubuntu-latest, cc: "clang", cxx: "clang++" }
 
     steps:
+    - uses: ashutoshvarma/setup-ninja@master
     - uses: actions/checkout@v2
       with:
         submodules: 'true'
-
-    - name: Setup Ninja
-      uses: ashutoshvarma/setup-ninja@master
 
     - name: Prepare vcpkg
       run: |
@@ -124,7 +118,7 @@ jobs:
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
-        cc: ${{ matrix.config.cc }}
-        cxx: ${{ matrix.config.cxx }}
-        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake"
+        cc: cl
+        cxx: cl
+        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="${{ runner.workspace }}/bddisasm-integration-test/vcpkg/scripts/buildsystems/vcpkg.cmake"
         build-type: Release

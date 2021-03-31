@@ -26,6 +26,7 @@ elseif (USE_AS STREQUAL "installed")
         set(CMAKE_PREFIX_PATH "${BDDISASM_INSTALL_PATH}")
     endif (BDDISASM_INSTALL_PATH)
     
+    message("BDDISASM_INSTALL_PATH: ${BDDISASM_INSTALL_PATH}")
     message("Using prefix path: ${CMAKE_PREFIX_PATH}")
     find_package(bddisasm 1.31 COMPONENTS bddisasm_Development)
 elseif (USE_AS STREQUAL "vcpkg")
