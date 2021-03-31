@@ -13,10 +13,10 @@ jobs:
           - { name: "Ubuntu clang", os: ubuntu-latest, cc: "clang", cxx: "clang++" }
 
     steps:
-    - uses: seanmiddleditch/gha-setup-ninja@master
     - uses: actions/checkout@v2
       with:
         submodules: 'true'      
+    - uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: Check ninja-1.10.0
       run: ninja --version
@@ -79,10 +79,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: seanmiddleditch/gha-setup-ninja@master
     - uses: actions/checkout@v2
       with:
         submodules: 'true'
+    - uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: Prepare vcpkg
       if: ${{ false }}
@@ -112,10 +112,10 @@ jobs:
           - { name: "Ubuntu clang", os: ubuntu-latest, cc: "clang", cxx: "clang++" }
 
     steps:
-    - uses: seanmiddleditch/gha-setup-ninja@master
     - uses: actions/checkout@v2
       with:
         submodules: 'true'
+    - uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: Prepare vcpkg
       if: ${{ false }}
