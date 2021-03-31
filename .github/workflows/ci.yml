@@ -18,11 +18,7 @@ jobs:
         submodules: 'true'      
     - uses: seanmiddleditch/gha-setup-ninja@master
 
-    - name: Check ninja-1.10.0
-      run: ninja --version
-
     - name: Use as sub-project
-      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
