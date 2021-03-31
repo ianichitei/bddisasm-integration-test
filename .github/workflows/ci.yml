@@ -78,7 +78,7 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         cc: cl
         cxx: cl
-        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="${{ runner.workspace }}/bddisasm-integration-test/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE=${{ runner.workspace }}/bddisasm-integration-test/vcpkg/scripts/buildsystems/vcpkg.cmake
         build-type: Release
         
   build-with-vcpkg-linux:
@@ -108,5 +108,5 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         cc: cl
         cxx: cl
-        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="${{ runner.workspace }}/bddisasm-integration-test/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE=${{ runner.workspace }}/bddisasm-integration-test/vcpkg/scripts/buildsystems/vcpkg.cmake
         build-type: Release
