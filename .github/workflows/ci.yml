@@ -62,7 +62,7 @@ jobs:
         build-dir: ${{ runner.workspace }}/bddisasm/build_install_spaces
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
-        configure-options: -G Ninja -DBDD_INCLUDE_TOOL=OFF -DCMAKE_INSTALL_PREFIX="install dir"
+        configure-options: -G Ninja -DBDD_INCLUDE_TOOL=OFF -DCMAKE_INSTALL_PREFIX='"install dir"'
         build-type: Release
         # install-build: true
 
@@ -75,7 +75,7 @@ jobs:
         build-dir: ${{ runner.workspace }}/build_installed_spaces
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
-        configure-options: -G Ninja -DUSE_AS=installed -DBDDISASM_INSTALL_PATH="install dir"
+        configure-options: -G Ninja -DUSE_AS=installed -DBDDISASM_INSTALL_PATH='"install dir"'
         build-type: Release
 
   build-with-vcpkg-windows:
