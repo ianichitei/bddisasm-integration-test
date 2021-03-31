@@ -32,6 +32,7 @@ jobs:
     - name: Install
       uses: ashutoshvarma/action-cmake-build@master
       with:
+        source-dir: ${{ runner.workspace }}/bddisasm
         build-dir: ${{ runner.workspace }}/bddisasm/build
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
@@ -51,6 +52,7 @@ jobs:
     - name: Install in path with spaces
       uses: ashutoshvarma/action-cmake-build@master
       with:
+        source-dir: ${{ runner.workspace }}/bddisasm
         build-dir: ${{ runner.workspace }}/bddisasm/build
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
