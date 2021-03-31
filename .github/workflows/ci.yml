@@ -46,7 +46,7 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
-        configure-options: -G Ninja -DUSE_AS=installed -DDBDDISASM_INSTALL_PATH=${{ runner.workspace }}/install
+        configure-options: -G Ninja -DUSE_AS=installed -DBDDISASM_INSTALL_PATH=${{ runner.workspace }}/install
         build-type: Release
 
     - name: Install in path with spaces
@@ -66,7 +66,7 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
-        configure-options: -G Ninja -DUSE_AS=installed -DDBDDISASM_INSTALL_PATH="${{ runner.workspace }}/install dir"
+        configure-options: -G Ninja -DUSE_AS=installed -DBDDISASM_INSTALL_PATH="${{ runner.workspace }}/install dir"
         build-type: Release
 
   build-with-vcpkg-windows:
