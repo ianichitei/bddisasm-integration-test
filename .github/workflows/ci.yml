@@ -18,6 +18,11 @@ jobs:
         submodules: 'true'      
     - uses: seanmiddleditch/gha-setup-ninja@master
 
+    - name: Prepare MSBuild
+      if: ${{ matrix.config.os == windows-latest }}
+      uses: microsoft/setup-msbuild@v1.0.2
+      uses: ilammy/msvc-dev-cmd@v1
+
     - name: Use as sub-project
       uses: ashutoshvarma/action-cmake-build@master
       with:
