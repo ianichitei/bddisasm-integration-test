@@ -55,29 +55,6 @@ jobs:
         configure-options: -G Ninja -DUSE_AS=installed -DBDDISASM_INSTALL_PATH=${{ runner.workspace }}/install
         build-type: Release
 
-    - name: Install in path with spaces
-      uses: ashutoshvarma/action-cmake-build@master
-      with:
-        source-dir: bddisasm
-        build-dir: ${{ runner.workspace }}/bddisasm/build_install_spaces
-        cc: ${{ matrix.config.cc }}
-        cxx: ${{ matrix.config.cxx }}
-        configure-options: -G Ninja -DBDD_INCLUDE_TOOL=OFF -DCMAKE_INSTALL_PREFIX='"install dir"'
-        build-type: Release
-        # install-build: true
-
-    - name: Print faulty cmake file
-      run: cat /home/runner/work/bddisasm-integration-test/bddisasm/build_install_spaces/cmake_install.cmake
-
-    - name: Use from installation with spaces
-      uses: ashutoshvarma/action-cmake-build@master
-      with:
-        build-dir: ${{ runner.workspace }}/build_installed_spaces
-        cc: ${{ matrix.config.cc }}
-        cxx: ${{ matrix.config.cxx }}
-        configure-options: -G Ninja -DUSE_AS=installed -DBDDISASM_INSTALL_PATH='"install dir"'
-        build-type: Release
-
   build-with-vcpkg-windows:
     runs-on: windows-latest
 
@@ -88,7 +65,6 @@ jobs:
     - uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: Prepare vcpkg
-      if: ${{ false }}
       run: |
         cd vcpkg
         .\bootstrap-vcpkg.bat
@@ -97,7 +73,6 @@ jobs:
         cd ..
 
     - name: Use with vcpkg
-      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
@@ -121,7 +96,6 @@ jobs:
     - uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: Prepare vcpkg
-      if: ${{ false }}
       run: |
         cd vcpkg
         ./bootstrap-vcpkg.sh
@@ -129,7 +103,6 @@ jobs:
         cd ..
 
     - name: Use with vcpkg
-      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
