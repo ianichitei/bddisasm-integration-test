@@ -39,9 +39,9 @@ jobs:
         build-type: Release
         install-build: true
 
-    - Name: Use from installation
+    - name: Use from installation
       uses: ashutoshvarma/action-cmake-build@master
-        with:
+      with:
         build-dir: ${{ runner.workspace }}/build
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
@@ -50,7 +50,7 @@ jobs:
 
     - name: Install in path with spaces
       uses: ashutoshvarma/action-cmake-build@master
-        with:
+      with:
         build-dir: ${{ runner.workspace }}/bddisasm/build
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
@@ -58,9 +58,9 @@ jobs:
         build-type: Release
         install-build: true
 
-    - Name: Use from installation with spaces
+    - name: Use from installation with spaces
       uses: ashutoshvarma/action-cmake-build@master
-        with:
+      with:
         build-dir: ${{ runner.workspace }}/build
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
@@ -78,7 +78,7 @@ jobs:
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@master
 
-    - Name: Prepare vcpkg
+    - name: Prepare vcpkg
       run: |
         cd vcpkg
         .\bootstrap-vcpkg.bat
@@ -86,9 +86,9 @@ jobs:
         .\vcpkg.exe install bddisasm:x86-windows
         cd ..
 
-    - Name: Use with vcpkg
+    - name: Use with vcpkg
       uses: ashutoshvarma/action-cmake-build@master
-        with:
+      with:
         build-dir: ${{ runner.workspace }}/build
         cc: cl
         cxx: cl
@@ -111,16 +111,16 @@ jobs:
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@master
 
-    - Name: Prepare vcpkg
+    - name: Prepare vcpkg
       run: |
         cd vcpkg
         ./bootstrap-vcpkg.sh
         ./vcpkg install bddisasm:x64-linux
         cd ..
 
-    - Name: Use with vcpkg
+    - name: Use with vcpkg
       uses: ashutoshvarma/action-cmake-build@master
-        with:
+      with:
         build-dir: ${{ runner.workspace }}/build
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
