@@ -94,7 +94,7 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         cc: cl
         cxx: cl
-        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="${{ runner.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake"
         build-type: Release
         
   build-with-vcpkg-linux:
@@ -126,5 +126,5 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
-        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="${{ runner.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake"
         build-type: Release
