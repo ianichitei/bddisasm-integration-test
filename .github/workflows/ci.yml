@@ -14,9 +14,16 @@ jobs:
 
     steps:
     - uses: ashutoshvarma/setup-ninja@master
+      version: 1.10.0
     - uses: actions/checkout@v2
       with:
         submodules: 'true'      
+
+    - name: Check ninja
+      run: ninja --version
+
+    - name: Check ninja-1.10.0
+      run: ninja-1.10.0 --version
 
     - name: Use as sub-project
       uses: ashutoshvarma/action-cmake-build@master
