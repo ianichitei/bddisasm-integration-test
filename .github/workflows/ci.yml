@@ -64,7 +64,7 @@ jobs:
         cxx: ${{ matrix.config.cxx }}
         configure-options: -G Ninja -DBDD_INCLUDE_TOOL=OFF -DCMAKE_INSTALL_PREFIX="install dir"
         build-type: Release
-        install-build: true
+        # install-build: true
 
     - name: Print faulty cmake file
       run: cat /home/runner/work/bddisasm-integration-test/bddisasm/build_install_spaces/cmake_install.cmake
