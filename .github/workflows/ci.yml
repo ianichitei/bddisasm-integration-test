@@ -20,13 +20,11 @@ jobs:
       with:
         submodules: 'true'      
 
-    - name: Check ninja
-      run: ninja --version
-
     - name: Check ninja-1.10.0
       run: ninja-1.10.0 --version
 
     - name: Use as sub-project
+      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
@@ -36,6 +34,7 @@ jobs:
         build-type: Release
 
     - name: Install
+      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         source-dir: bddisasm
@@ -47,6 +46,7 @@ jobs:
         install-build: true
 
     - name: Use from installation
+      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
@@ -56,6 +56,7 @@ jobs:
         build-type: Release
 
     - name: Install in path with spaces
+      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         source-dir: bddisasm
@@ -67,6 +68,7 @@ jobs:
         install-build: true
 
     - name: Use from installation with spaces
+      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
@@ -85,6 +87,7 @@ jobs:
         submodules: 'true'
 
     - name: Prepare vcpkg
+      if: ${{ false }}
       run: |
         cd vcpkg
         .\bootstrap-vcpkg.bat
@@ -93,6 +96,7 @@ jobs:
         cd ..
 
     - name: Use with vcpkg
+      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
@@ -116,6 +120,7 @@ jobs:
         submodules: 'true'
 
     - name: Prepare vcpkg
+      if: ${{ false }}
       run: |
         cd vcpkg
         ./bootstrap-vcpkg.sh
@@ -123,6 +128,7 @@ jobs:
         cd ..
 
     - name: Use with vcpkg
+      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
