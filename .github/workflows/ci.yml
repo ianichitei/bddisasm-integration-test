@@ -1,72 +1,128 @@
-name: CMake
+name: Build
 
 on: [push]
 
 jobs:
-  Linux-cmake-version:
-    runs-on: ubuntu-latest
-    steps:
-    - name: CMake version
-      run: cmake --version
-      
-  Windows-cmake-version:
-    runs-on: windows-latest
-    steps:
-    - name: CMake version
-      run: cmake --version
-
-  Linux-build:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        config:
+          - { name: "Windows MSVC", os: windows-latest, cc: "cl", cxx: "cl" }
+          - { name: "Ubuntu gcc", os: ubuntu-latest, cc: "gcc", cxx: "g++" }
+          - { name: "Ubuntu clang", os: ubuntu-latest, cc: "clang", cxx: "clang++" }
 
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: 'true'
 
-    - name: Install rapidjson
-      uses: actions/checkout@master
-      with:
-        repository: Tencent/rapidjson
-        path: rapidjson
-    - name: Build dependencies
-      run: |
-        cd rapidjson
-        mkdir _build
-        cd _build
-        cmake ..
-        make -j$(nproc)
-        sudo make install
-        cd ..
-        cd ..
-    - name: Install vcpkg
-      run: |
-        cd vcpkg
-         ./bootstrap-vcpkg.sh
-         cd ..
-    - name: Build
-      run: |
-        sudo chmod +x ./build.sh
-        ./build.sh
+    - name: Setup Ninja
+      uses: ashutoshvarma/setup-ninja@master
 
-  Winodws-build:
+    - name: Use as sub-project
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-dir: ${{ runner.workspace }}/build
+        cc: ${{ matrix.config.cc }}
+        cxx: ${{ matrix.config.cxx }}
+        configure-options: -G Ninja -DUSE_AS=subdir
+        build-type: Release
+
+    - name: Install
+      uses: ashutoshvarma/action-cmake-build@master
+        with:
+        build-dir: ${{ runner.workspace }}/bddisasm/build
+        cc: ${{ matrix.config.cc }}
+        cxx: ${{ matrix.config.cxx }}
+        configure-options: -G Ninja -DCMAKE_INSTALL_PREFIX=${{ runner.workspace }}/install
+        build-type: Release
+        install-build: true
+
+    - Name: Use from installation
+      uses: ashutoshvarma/action-cmake-build@master
+        with:
+        build-dir: ${{ runner.workspace }}/build
+        cc: ${{ matrix.config.cc }}
+        cxx: ${{ matrix.config.cxx }}
+        configure-options: -G Ninja -DUSE_AS=installed -DDBDDISASM_INSTALL_PATH=${{ runner.workspace }}/install
+        build-type: Release
+
+    - name: Install in path with spaces
+      uses: ashutoshvarma/action-cmake-build@master
+        with:
+        build-dir: ${{ runner.workspace }}/bddisasm/build
+        cc: ${{ matrix.config.cc }}
+        cxx: ${{ matrix.config.cxx }}
+        configure-options: -G Ninja -DCMAKE_INSTALL_PREFIX="${{ runner.workspace }}/install dir"
+        build-type: Release
+        install-build: true
+
+    - Name: Use from installation with spaces
+      uses: ashutoshvarma/action-cmake-build@master
+        with:
+        build-dir: ${{ runner.workspace }}/build
+        cc: ${{ matrix.config.cc }}
+        cxx: ${{ matrix.config.cxx }}
+        configure-options: -G Ninja -DUSE_AS=installed -DDBDDISASM_INSTALL_PATH="${{ runner.workspace }}/install dir"
+        build-type: Release
+
+  build-with-vcpkg-windows:
     runs-on: windows-latest
-    
+
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: 'true'
-    - uses: ilammy/msvc-dev-cmd@v1
-      with:
-        sdk: 10.0.18362.0
-  
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
-        
-    - name: Install vcpkg
+
+    - name: Setup Ninja
+      uses: ashutoshvarma/setup-ninja@master
+
+    - Name: Prepare vcpkg
       run: |
         cd vcpkg
         .\bootstrap-vcpkg.bat
+        .\vcpkg.exe install bddisasm:x64-windows
+        .\vcpkg.exe install bddisasm:x86-windows
         cd ..
+
+    - Name: Use with vcpkg
+      uses: ashutoshvarma/action-cmake-build@master
+        with:
+        build-dir: ${{ runner.workspace }}/build
+        cc: cl
+        cxx: cl
+        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="${{ runner.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        build-type: Release
         
-    - name: Build
-      run: .\build.cmd
+  build-with-vcpkg-linux:
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      matrix:
+        config:
+          - { name: "Ubuntu gcc", os: ubuntu-latest, cc: "gcc", cxx: "g++" }
+          - { name: "Ubuntu clang", os: ubuntu-latest, cc: "clang", cxx: "clang++" }
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
+
+    - name: Setup Ninja
+      uses: ashutoshvarma/setup-ninja@master
+
+    - Name: Prepare vcpkg
+      run: |
+        cd vcpkg
+        ./bootstrap-vcpkg.sh
+        ./vcpkg install bddisasm:x64-linux
+        cd ..
+
+    - Name: Use with vcpkg
+      uses: ashutoshvarma/action-cmake-build@master
+        with:
+        build-dir: ${{ runner.workspace }}/build
+        cc: ${{ matrix.config.cc }}
+        cxx: ${{ matrix.config.cxx }}
+        configure-options: -G Ninja -DUSE_AS=vcpkg -DCMAKE_TOOLCHAIN_FILE="${{ runner.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        build-type: Release
