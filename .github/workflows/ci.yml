@@ -29,7 +29,7 @@ jobs:
     - name: Use as sub-project
       uses: ashutoshvarma/action-cmake-build@master
       with:
-        build-dir: ${{ runner.workspace }}/build
+        build-dir: ${{ runner.workspace }}/build_as_subproject
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
         configure-options: -G Ninja -DUSE_AS=subdir
@@ -39,7 +39,7 @@ jobs:
       uses: ashutoshvarma/action-cmake-build@master
       with:
         source-dir: bddisasm
-        build-dir: ${{ runner.workspace }}/bddisasm/build
+        build-dir: ${{ runner.workspace }}/bddisasm/build_install
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
         configure-options: -G Ninja -DBDD_INCLUDE_TOOL=OFF -DCMAKE_INSTALL_PREFIX=${{ runner.workspace }}/install
@@ -49,7 +49,7 @@ jobs:
     - name: Use from installation
       uses: ashutoshvarma/action-cmake-build@master
       with:
-        build-dir: ${{ runner.workspace }}/build
+        build-dir: ${{ runner.workspace }}/build_installed
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
         configure-options: -G Ninja -DUSE_AS=installed -DBDDISASM_INSTALL_PATH=${{ runner.workspace }}/install
@@ -59,7 +59,7 @@ jobs:
       uses: ashutoshvarma/action-cmake-build@master
       with:
         source-dir: bddisasm
-        build-dir: ${{ runner.workspace }}/bddisasm/build
+        build-dir: ${{ runner.workspace }}/bddisasm/build_install_spaces
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
         configure-options: -G Ninja -DBDD_INCLUDE_TOOL=OFF -DCMAKE_INSTALL_PREFIX="${{ runner.workspace }}/install dir"
@@ -69,7 +69,7 @@ jobs:
     - name: Use from installation with spaces
       uses: ashutoshvarma/action-cmake-build@master
       with:
-        build-dir: ${{ runner.workspace }}/build
+        build-dir: ${{ runner.workspace }}/build_installed_spaces
         cc: ${{ matrix.config.cc }}
         cxx: ${{ matrix.config.cxx }}
         configure-options: -G Ninja -DUSE_AS=installed -DBDDISASM_INSTALL_PATH="${{ runner.workspace }}/install dir"
