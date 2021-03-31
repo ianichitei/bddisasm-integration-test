@@ -19,8 +19,11 @@ jobs:
     - uses: seanmiddleditch/gha-setup-ninja@master
 
     - name: Prepare MSBuild
-      if: ${{ matrix.config.os == windows-latest }}
+      if: ${{ matrix.config.os == 'windows-latest' }}
       uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: Prepare MSVC CMD
+      if: ${{ matrix.config.os == 'windows-latest' }}
       uses: ilammy/msvc-dev-cmd@v1
 
     - name: Use as sub-project
