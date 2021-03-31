@@ -36,7 +36,6 @@ jobs:
         build-type: Release
 
     - name: Install
-      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         source-dir: bddisasm
@@ -48,7 +47,6 @@ jobs:
         install-build: true
 
     - name: Use from installation
-      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
@@ -58,7 +56,6 @@ jobs:
         build-type: Release
 
     - name: Install in path with spaces
-      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         source-dir: bddisasm
@@ -70,7 +67,6 @@ jobs:
         install-build: true
 
     - name: Use from installation with spaces
-      if: ${{ false }}
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
